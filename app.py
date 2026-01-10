@@ -1,10 +1,9 @@
 import streamlit as st
 import random
 
-# --------------------
+
 # 初期設定
-# --------------------
-st.set_page_config(page_title="顔文字名称あてクイズ", page_icon="🖼️")
+st.set_page_config(page_title="顔文字名称あてクイズ", page_icon="🤔")
 st.title("顔文字の名称を当てるクイズ")
 def hira_to_kata(text: str) -> str:
     result = ""
@@ -30,9 +29,7 @@ def scroll_to_top():
     )
 
 
-# --------------------
-# クイズデータ（10問）
-# --------------------
+# クイズデータ
 QUIZ_DATA = [
     {"image_url": "1f600", "answer": "にこやかな笑顔"},
     {"image_url": "1f604", "answer": "目もにこやかな笑顔"},
@@ -67,9 +64,8 @@ QUIZ_DATA = [
     
     
 ]
-# --------------------
+
 # 問題数設定（クイズ開始前）
-# --------------------
 available_counts = [n for n in [10, 20, 30] if n <= len(QUIZ_DATA)]
 
 num_questions = st.radio(
@@ -78,9 +74,8 @@ num_questions = st.radio(
     horizontal=True
 )
 
-# --------------------
-# ランダム出題（問題固定）
-# --------------------
+
+# ランダム出題
 if "quiz_list" not in st.session_state or st.session_state.get("num_questions") != num_questions:
     st.session_state.quiz_list = random.sample(QUIZ_DATA, num_questions)
     st.session_state.num_questions = num_questions
@@ -90,9 +85,7 @@ quiz_list = st.session_state.quiz_list
 st.divider()
 
 
-# --------------------
 # 回答入力
-# --------------------
 for i, quiz in enumerate(quiz_list):
     st.subheader(f"問題 {i + 1}")
 
@@ -113,9 +106,8 @@ for i, quiz in enumerate(quiz_list):
     st.divider()
 
 
-# --------------------
+
 # 採点
-# --------------------
 if st.button("まとめて答え合わせ"):
     score = 0
     st.subheader("結果")
@@ -132,9 +124,7 @@ if st.button("まとめて答え合わせ"):
 
     st.markdown(f"## 得点：{score} / {len(quiz_list)}")
 
-    # --------------------
     # もう一度出題
-    # --------------------
     if st.button("🔄 もう一度出題"):
         st.session_state.pop("quiz_list")
         scroll_to_top()
@@ -147,5 +137,6 @@ st.caption(
     "画像提供：Twemoji © Twitter, Inc.（CC BY 4.0）｜"
     "名称・解説参考：Let's Emoji（https://lets-emoji.com/）"
 )
+
 
 
